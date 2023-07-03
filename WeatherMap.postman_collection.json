@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "6eefa8c2-9296-4741-87a7-aaf956fb0d15",
+		"name": "WeatherMap",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27409613",
+		"_collection_link": "https://restless-shadow-909717.postman.co/workspace/c305fa7f-1a8e-4099-8846-f299435d9cab/collection/27409613-6eefa8c2-9296-4741-87a7-aaf956fb0d15?action=share&creator=27409613&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "WeatherDetail_London",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//parse the respone body as JSON\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"//extract the temperature value\r",
+							"var temperature = responseBody.main.temp;\r",
+							"var humidity = responseBody.main.humidity;\r",
+							"var pressure = responseBody.main.pressure;\r",
+							"\r",
+							"// Create a JavaScript object with the extracted data\r",
+							"var jsonData = {\r",
+							"  temperature: temperature,\r",
+							"  humidity: humidity,\r",
+							"  pressure: pressure\r",
+							"};\r",
+							"\r",
+							"var csvString = temperature + \",\" + humidity + \",\" + pressure;\r",
+							"// Convert the JavaScript object to a JSON string\r",
+							"var jsonString = JSON.stringify(jsonData);\r",
+							"\r",
+							"//To assign the JSON string to an environment variable:\r",
+							"pm.environment.set(\"formattedData1\", jsonString);\r",
+							"\r",
+							"console.log(pm.environment.get(\"formattedData1\"));\r",
+							"\r",
+							"pm.environment.set(\"formattedData2\", csvString);\r",
+							"\r",
+							"console.log(pm.environment.get(\"formattedData2\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}{{APIVersion}}{{EndpointPath}}?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22",
+					"host": [
+						"{{BaseURL}}{{APIVersion}}{{EndpointPath}}"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "London,uk"
+						},
+						{
+							"key": "appid",
+							"value": "b6907d289e10d714a6e88b30761fae22"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseURL",
+			"value": "https://samples.openweathermap.org",
+			"type": "string"
+		},
+		{
+			"key": "APIVersion",
+			"value": "/data/2.5",
+			"type": "string"
+		},
+		{
+			"key": "EndpointPath",
+			"value": "/weather",
+			"type": "string"
+		}
+	]
+}
